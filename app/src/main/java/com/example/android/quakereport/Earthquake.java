@@ -1,5 +1,7 @@
 package com.example.android.quakereport;
 
+import java.util.Date;
+
 /**
  * Created by Sergei on 03.04.2017.
  */
@@ -8,9 +10,9 @@ public class Earthquake {
 
     double magnitude;
     String city;
-    String date;
+    Date date;
 
-    public Earthquake(float magnitude, String city, String date){
+    public Earthquake(double magnitude, String city, Date date){
 
         this.magnitude = magnitude;
         this.city = city;
@@ -26,7 +28,7 @@ public class Earthquake {
         return city;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 

@@ -2,21 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
+    android:padding="10dp"
     >
     <TextView
-        android:layout_marginLeft="10dp"
         android:text="7.2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/magnitude"
         android:layout_weight="1"
         />
     <TextView
-        android:layout_marginLeft="10dp"
         android:text="San Francisco"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/city"
         android:layout_weight="1"
@@ -24,9 +21,8 @@
 
     <TextView
         android:id="@+id/date"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:layout_weight="1"
         android:text="Feb 2, 2016"
         />
