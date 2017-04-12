@@ -15,6 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.sql.Time;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -68,7 +70,14 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake>{
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy", Locale.ENGLISH);
         SimpleDateFormat timeFormat = new SimpleDateFormat("K:mm a");
 
-        viewHolder.tvMagnitude.setText(String.valueOf(earthquake.getMagnitude()));
+        DecimalFormat decimalFormat = new DecimalFormat("0.0");
+        DecimalFormatSymbols dfs = decimalFormat.getDecimalFormatSymbols();
+        dfs.setDecimalSeparator('.');
+        decimalFormat.setDecimalFormatSymbols(dfs);
+
+        String decimalMagnitude = decimalFormat.format(earthquake.getMagnitude());
+
+        viewHolder.tvMagnitude.setText(decimalMagnitude);
 
         if (earthquake.getCity().contains(" of ")){
 
