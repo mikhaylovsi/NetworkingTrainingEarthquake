@@ -11,12 +11,14 @@ public class Earthquake {
     double magnitude;
     String city;
     Date date;
+    String url;
 
-    public Earthquake(double magnitude, String city, Date date){
+    public Earthquake(double magnitude, String city, Date date, String url){
 
         this.magnitude = magnitude;
         this.city = city;
         this.date = date;
+        this.url = url;
 
     }
 
@@ -30,6 +32,10 @@ public class Earthquake {
 
     public Date getDate() {
         return date;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
 }

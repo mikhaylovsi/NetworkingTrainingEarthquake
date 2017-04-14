@@ -3,7 +3,10 @@ package com.example.android.quakereport;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.icu.util.TimeZone;
+import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -77,6 +80,9 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake>{
 
         String decimalMagnitude = decimalFormat.format(earthquake.getMagnitude());
 
+        GradientDrawable background = (GradientDrawable) viewHolder.tvMagnitude.getBackground();
+        background.setColor(getMagnitudeColor(earthquake.getMagnitude()));
+
         viewHolder.tvMagnitude.setText(decimalMagnitude);
 
         if (earthquake.getCity().contains(" of ")){
@@ -97,6 +103,46 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake>{
         viewHolder.tvTime.setText(timeFormat.format(earthquake.getDate()));
 
         return listItemView;
+    }
+
+    private int getMagnitudeColor(double magnitude){
+
+        int colorId;
+
+        switch((int)magnitude){
+            case 0:
+            case 1:
+                colorId = ContextCompat.getColor(context, R.color.magnitude1);
+                break;
+            case 2:
+                colorId = ContextCompat.getColor(context, R.color.magnitude2);
+                break;
+            case 3:
+                colorId = ContextCompat.getColor(context, R.color.magnitude3);
+                break;
+            case 4:
+                colorId = ContextCompat.getColor(context, R.color.magnitude4);
+                break;
+            case 5:
+                colorId = ContextCompat.getColor(context, R.color.magnitude5);
+                break;
+            case 6:
+                colorId = ContextCompat.getColor(context, R.color.magnitude6);
+                break;
+            case 7:
+                colorId = ContextCompat.getColor(context, R.color.magnitude7);
+                break;
+            case 8:
+                colorId = ContextCompat.getColor(context, R.color.magnitude8);
+                break;
+            case 9:
+                colorId = ContextCompat.getColor(context, R.color.magnitude9);
+                break;
+            default:
+                colorId = ContextCompat.getColor(context, R.color.magnitude10plus);
+        }
+
+        return colorId;
     }
 
     private class ViewHolder{
