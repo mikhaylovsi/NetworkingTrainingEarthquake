@@ -16,9 +16,11 @@
 package com.example.android.quakereport;
 
 import android.content.Intent;
+import android.content.Loader;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,7 +29,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EarthquakeActivity extends AppCompatActivity {
+public class EarthquakeActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Earthquake>> {
 
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
     public static final String URL = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&minmag=6&limit=10";
@@ -54,6 +56,21 @@ public class EarthquakeActivity extends AppCompatActivity {
 
         EarthquakeAssyncTask earthquakeAssyncTask = new EarthquakeAssyncTask();
         earthquakeAssyncTask.execute(URL);
+
+    }
+
+    @Override
+    public android.support.v4.content.Loader<List<Earthquake>> onCreateLoader(int id, Bundle args) {
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(android.support.v4.content.Loader<List<Earthquake>> loader, List<Earthquake> data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(android.support.v4.content.Loader<List<Earthquake>> loader) {
 
     }
 
