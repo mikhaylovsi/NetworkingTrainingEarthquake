@@ -33,6 +33,9 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
     public static final String URL = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&minmag=6&limit=10";
+    private static final int EARTHQUAKE_LOADER_ID = 1;
+
+    EarthquakeAdapter mAdapter;
 
     ListView earthquakeListView;
 
@@ -40,6 +43,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
+
 
         // Find a reference to the {@link ListView} in the layout
         earthquakeListView = (ListView) findViewById(R.id.list);
@@ -54,48 +58,34 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
             }
         });
 
-        EarthquakeAssyncTask earthquakeAssyncTask = new EarthquakeAssyncTask();
-        earthquakeAssyncTask.execute(URL);
+
+        mAdapter = new EarthquakeAdapter(this, new ArrayList<Earthquake>());
+
+        earthquakeListView.setAdapter(mAdapter);
+
+        getSupportLoaderManager().initLoader(EARTHQUAKE_LOADER_ID, null, this).forceLoad();
 
     }
 
     @Override
     public android.support.v4.content.Loader<List<Earthquake>> onCreateLoader(int id, Bundle args) {
-        return null;
+        return new EarthquakeLoader(this, URL);
     }
 
     @Override
     public void onLoadFinished(android.support.v4.content.Loader<List<Earthquake>> loader, List<Earthquake> data) {
+
+       mAdapter.clear();
+       mAdapter.addAll(data);
 
     }
 
     @Override
     public void onLoaderReset(android.support.v4.content.Loader<List<Earthquake>> loader) {
 
+        mAdapter.clear();
+
     }
 
-    class EarthquakeAssyncTask extends AsyncTask<String, Void, List<Earthquake>> {
-
-        @Override
-        protected List<Earthquake> doInBackground(String... params) {
-
-            List<Earthquake> earthquakes = QueryUtils.fetchDataFromURL(params[0]);
-            return earthquakes;
-        }
-
-        @Override
-        protected void onPostExecute(List<Earthquake> earthquakes) {
-            super.onPostExecute(earthquakes);
-
-            // Create a new {@link ArrayAdapter} of earthquakes
-            EarthquakeAdapter adapter = new EarthquakeAdapter(
-                    EarthquakeActivity.this, (ArrayList<Earthquake>)earthquakes);
-
-            // Set the adapter on the {@link ListView}
-            // so the list can be populated in the user interface
-            earthquakeListView.setAdapter(adapter);
-
-        }
-    }
 
 }
