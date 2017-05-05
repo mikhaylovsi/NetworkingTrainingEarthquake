@@ -22,9 +22,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,8 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
     ListView earthquakeListView;
 
+    TextView emptyView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +51,9 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
         // Find a reference to the {@link ListView} in the layout
         earthquakeListView = (ListView) findViewById(R.id.list);
+
+        emptyView = (TextView) findViewById(R.id.emptyList);
+        earthquakeListView.setEmptyView(emptyView);
 
         earthquakeListView.setOnItemClickListener( new ListView.OnItemClickListener() {
             @Override
@@ -63,12 +70,15 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
         earthquakeListView.setAdapter(mAdapter);
 
-        getSupportLoaderManager().initLoader(EARTHQUAKE_LOADER_ID, null, this).forceLoad();
+
+        Log.w(LOG_TAG, "Loader was initialized");
+        getSupportLoaderManager().initLoader(EARTHQUAKE_LOADER_ID, null, this);
 
     }
 
     @Override
     public android.support.v4.content.Loader<List<Earthquake>> onCreateLoader(int id, Bundle args) {
+        Log.w(LOG_TAG, "Loader was created");
         return new EarthquakeLoader(this, URL);
     }
 
@@ -76,14 +86,20 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     public void onLoadFinished(android.support.v4.content.Loader<List<Earthquake>> loader, List<Earthquake> data) {
 
        mAdapter.clear();
-       mAdapter.addAll(data);
+       //mAdapter.addAll(data);
+
+        emptyView.setText(R.string.empty_view);
+
+        Log.w(LOG_TAG, "Loader was finished");
 
     }
 
     @Override
     public void onLoaderReset(android.support.v4.content.Loader<List<Earthquake>> loader) {
 
+
         mAdapter.clear();
+        Log.w(LOG_TAG, "Loader was cleared");
 
     }
 
