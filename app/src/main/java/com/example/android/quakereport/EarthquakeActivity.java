@@ -15,12 +15,16 @@
  */
 package com.example.android.quakereport;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.net.ConnectivityManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -77,7 +81,22 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
 
         Log.w(LOG_TAG, "Loader was initialized");
-        getSupportLoaderManager().initLoader(EARTHQUAKE_LOADER_ID, null, this);
+
+        boolean isConnected = false;
+
+        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+
+        if(networkInfo != null) {
+            isConnected = networkInfo.isConnectedOrConnecting();
+        }
+
+        if(isConnected) {
+            getSupportLoaderManager().initLoader(EARTHQUAKE_LOADER_ID, null, this);
+        }else{
+            progressBar.setVisibility(View.GONE);
+            emptyView.setText(R.string.no_internet_connection);
+        }
 
     }
 
