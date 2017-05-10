@@ -40,6 +40,10 @@ public final class QueryUtils {
      */
     public static ArrayList<Earthquake> extractEarthquakes(String jsonResponse) {
 
+        if(jsonResponse == null || jsonResponse.isEmpty()){
+            return null;
+        }
+
         // Create an empty ArrayList that we can start adding earthquakes to
         ArrayList<Earthquake> earthquakes = new ArrayList<>();
 
@@ -88,16 +92,19 @@ public final class QueryUtils {
 
     public static List<Earthquake> fetchDataFromURL(String urlString) {
 
+
+
        URL url = makeURL(urlString);
         String jsonResponse = "";
 
+        List<Earthquake> earthquakes = null;
+
         try {
             jsonResponse = makeHTTPRequest(url);
+            earthquakes = extractEarthquakes(jsonResponse);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        List<Earthquake> earthquakes = extractEarthquakes(jsonResponse);
 
         return earthquakes;
     }
@@ -125,8 +132,13 @@ public final class QueryUtils {
             e.printStackTrace();
         }finally {
 
-            connection.disconnect();
-            inputStream.close();
+            if(connection != null){
+                connection.disconnect();
+            }
+
+            if(inputStream != null){
+                inputStream.close();
+            }
         }
 
         return jsonResponse;

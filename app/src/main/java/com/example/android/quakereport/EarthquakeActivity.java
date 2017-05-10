@@ -90,15 +90,17 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     @Override
     public void onLoadFinished(android.support.v4.content.Loader<List<Earthquake>> loader, List<Earthquake> data) {
 
-       mAdapter.clear();
-       //mAdapter.addAll(data);
+        mAdapter.clear();
         progressBar.setVisibility(View.GONE);
 
-        emptyView.setText(R.string.empty_view);
+        if(data == null || data.size() == 0){
+            emptyView.setText(R.string.empty_view);
+        }
+        else{
+            mAdapter.addAll(data);
+        }
 
         Log.w(LOG_TAG, "Loader was finished");
-
-
 
     }
 
